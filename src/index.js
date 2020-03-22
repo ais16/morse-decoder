@@ -38,9 +38,35 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-    // write your solution here
+  // write your solution here
+  var result = "";
+  for (var i = 0; i < expr.length; i += 10) {
+    //выбираем поочередно по 10 символов из входящей строки
+    let symbols10 = expr.slice(i, i + 10);
+    //если получено 10 звездочек - это пробел
+    if (symbols10 == "**********") {
+      result += " ";
+    }
+    //если звездочек нет, переводим выбранные 10 символов в точки и тире
+    else {
+      let symbol = "";
+      for (var j = 0; j < 9; j += 2) {
+        //перебираем по 2 символа и присваиваем соответствующее значение (. или -)
+        let symbols2 = symbols10.slice(j, j + 2);
+        if (symbols2 == 10) {
+          symbol += ".";
+        } else if (symbols2 == 11) {
+          symbol += "-";
+        }
+      }
+      //выбираем из таблицы Морзе символ, соответствующий полученному коду из точек и тире
+      result += MORSE_TABLE[symbol];
+    }
+  }
+  //возвращаем результат
+  return result;
 }
 
 module.exports = {
-    decode
+  decode
 }
